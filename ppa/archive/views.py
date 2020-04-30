@@ -218,7 +218,8 @@ class DigitizedWorkListView(AjaxTemplateMixin, LastModifiedListMixin, ListView):
             'expand': 'true',
             'expand.rows': 2,   # number of items in the collapsed group, i.e pages to display
             # explicitly query pages on text content (join q seems to skip qf)
-            'keyword_query': 'content:%s' % keyword_query,
+            # NOTE: including content variants in search requires keyword query change to prevent empty results
+            'keyword_query': 'content:(%(kw)s) OR content_nostem:(%(kw)s) OR content_punctuation:(%(kw)s)' % { 'kw': keyword_query },
             'title_query': title_query,
             'work_query': work_query
         }
@@ -412,7 +413,8 @@ class DigitizedWorkDetailView(AjaxTemplateMixin, LastModifiedMixin, DetailView):
             context['query'] = query
             solr_q = query
             solr_opts = {
-                'q': 'content:(%s)' % solr_q,
+                # NOTE: search across all content variants
+                'q': 'content:(%(kw)s) OR content_nostem:(%(kw)s) OR content_punctuation:(%(kw)s)' % { 'kw': solr_q },
                 # sort by page order by default
                 'sort': 'order asc',
                 # 'fl': '*',
