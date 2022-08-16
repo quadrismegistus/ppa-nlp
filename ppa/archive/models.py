@@ -387,6 +387,12 @@ class DigitizedWork(ModelIndexable, TrackChangesModel):
         blank=True,
         validators=[validate_page_range],
     )
+    group_id = models.CharField(
+        "Group ID",
+        max_length=255,
+        help_text="Identifier for grouping reprints/editions",
+        blank=True,
+    )
 
     class Meta:
         ordering = ("sort_title",)
