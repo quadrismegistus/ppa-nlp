@@ -745,7 +745,10 @@ class DigitizedWork(ModelIndexable, TrackChangesModel):
             "id": index_id,
             "source_id": self.source_id,
             "first_page_i": self.first_page(),
-            "group_id_s": index_id,  # for grouping pages by work or excerpt
+            # id for grouping pages by work or excerpt
+            "work_page_group_s": index_id,
+            # id for grouping reprints/editions
+            "group_id_s": self.group_id or index_id,
             "source_t": self.get_source_display(),
             "source_url": self.source_url,
             "title": self.title,
@@ -1049,7 +1052,8 @@ class Page(Indexable):
                         yield {
                             "id": "%s.%s" % (digwork_index_id, page.text_file.sequence),
                             "source_id": digwork.source_id,
-                            "group_id_s": digwork_index_id,  # for grouping with work record
+                            "work_page_group_s": digwork_index_id,  # for grouping with work record
+                            "group_id_s": digwork.group_id or digwork_index_id,
                             "content": pagefile.read().decode("utf-8"),
                             "order": page.order,
                             "label": page.display_label,
@@ -1082,7 +1086,8 @@ class Page(Indexable):
             yield {
                 "id": "%s.%s" % (digwork_index_id, page_number),
                 "source_id": digwork.source_id,
-                "group_id_s": digwork_index_id,  # for grouping with work record
+                "work_page_group_s": digwork_index_id,  # for grouping with work record
+                "group_id_s": digwork.group_id or digwork_index_id,
                 "content": page.get("ocrText"),  # some pages have no text
                 "order": i,
                 "label": page_label,

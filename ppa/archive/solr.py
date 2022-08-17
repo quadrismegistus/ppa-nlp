@@ -131,6 +131,7 @@ class ArchiveSearchQuerySet(AliasedSolrQuerySet):
         "work_type_s",
         "book_journal_s",
         "group_id_s",
+        "work_page_group_s",
     ]
     # aliases for any fields we want to rename for search and display
     # (must also be included in return_fields list)
@@ -141,6 +142,7 @@ class ArchiveSearchQuerySet(AliasedSolrQuerySet):
         "work_type_s": "work_type",
         "book_journal_s": "book_journal",
         "group_id_s": "group_id",
+        "work_page_group_s": "work_page_group",
     }
 
     keyword_query = None
@@ -203,6 +205,15 @@ class ArchiveSearchQuerySet(AliasedSolrQuerySet):
             qs_copy.filter_qs.extend(self._workq.filter_qs)
             # use set to ensure we don't duplicate a filter
             qs_copy.filter_qs = list(set(qs_copy.filter_qs))
+
+            # group reprints/editions
+            qs_copy = qs_copy.filter(
+                "{!collapse field=group_id_s}"
+            ).raw_query_parameters(
+                expand="true",
+                **{"expand.rows": 2},
+            )
+
             return qs_copy._base_query_opts()
 
         # when there is a keyword query, add it & combine with any work filters
@@ -235,6 +246,10 @@ class ArchiveSearchQuerySet(AliasedSolrQuerySet):
         # expand and return three rows
         # NOTE: expand param used to be 2, but that wasn't generating
         # correct display! Not sure why
+
+        # NOTE: for main archive search,
+        # we want to expand/collapse on group id (reprints/editions) instead
+        # of work_page_group id
         qs_copy = (
             qs_copy.search(combined_query)
             .filter('{!collapse field=group_id_s sort="order asc"}')
