@@ -162,20 +162,6 @@
         }
     }
 
-    .multiversion-work {
-        margin-bottom: 42px;
-        // top padding is 19px from buttons,
-        // default result details padding above this is rem = 28px
-        margin-top: -9px;
-        a {
-            // font-family: $pageFont;
-            // @include font-scale;
-            &:link, &:visited, &:hover {
-                color: $french-blue;
-            }
-
-        }
-    }
 
     .page-previews.container {
         padding-left: 4rem;
@@ -235,5 +221,32 @@
 .results-list a.detail:hover {
     .item-detail {
         visibility: visible;
+    }
+}
+
+.multiversion-work {
+    margin-bottom: 42px;
+
+    // search results placement
+    .results-list .item & {
+        // top padding is 19px from buttons,
+        // default result details padding above this is 1rem = 28px
+        margin-top: -9px;
+
+    }
+
+    // item detail placement
+    #digitized-work & {
+        // we want ~100px, table above has 1rem bottom padding
+        margin-top: 70px;
+        margin-bottom: 64px;
+    }
+
+
+    a {
+        &:link, &:visited, &:hover {
+            color: $french-blue;
+        }
+
     }
 }
