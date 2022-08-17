@@ -1,5 +1,6 @@
 {# TODO: use group_id to generate link to search within edition/reprint group #}
 <div class="multiversion-work icon container" >
     {# TODO: do we need aria label / sr-only text equivalent to the icon ? #}
-    <a href="#">view and search versions with same title & author</a>
+    {# TODO: include count if we can easily get it ; search and browse x digitized works within cluster #}
+    <a href="{% url "archive:list" %}?group={{ group_id }}">search and browse within cluster</a>
 </div>

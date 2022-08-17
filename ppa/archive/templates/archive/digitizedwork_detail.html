@@ -148,7 +148,7 @@
 
     {# if the group id is set, this work is part of a reprint/edition group #}
     {% if object.group_id %}
-        {% include "archive/snippets/multiwork_version.html" %}
+        {% include "archive/snippets/multiwork_version.html" with group_id=object.group_id %}
     {% endif %}
 
 </section>

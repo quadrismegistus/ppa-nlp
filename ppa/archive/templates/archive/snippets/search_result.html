@@ -90,7 +90,7 @@
     </a>
     {# if the group id differs from item id, this is a collapsed reprint/edition result #}
     {% if item.group_id != item.id %}
-        {% include "archive/snippets/multiwork_version.html" %}
+        {% include "archive/snippets/multiwork_version.html" with group_id=item.group_id %}
     {% endif %}
     <div class="page-previews container">
         {% if page_groups and page_highlights %}
