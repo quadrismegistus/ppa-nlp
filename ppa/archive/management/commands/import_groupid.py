@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand, CommandError
 
-from ppa.archive.models import DigitizedWork
+from ppa.archive.models import DigitizedWork, Page
 
 logger = logging.getLogger(__name__)
 
@@ -75,15 +75,20 @@ class Command(BaseCommand):
             # save if changed
             if digwork.has_changed("group_id"):
                 digwork.save()
-            # create a log entry
-            LogEntry.objects.log_action(
-                user_id=self.script_user.pk,
-                content_type_id=self.digwork_contentype.pk,
-                object_id=digwork.pk,
-                object_repr=str(digwork),
-                change_message="Set group ID via CSV",
-                action_flag=CHANGE,
-            )
+
+                # create a log entry
+                LogEntry.objects.log_action(
+                    user_id=self.script_user.pk,
+                    content_type_id=self.digwork_contentype.pk,
+                    object_id=digwork.pk,
+                    object_repr=str(digwork),
+                    change_message="Set group ID via CSV",
+                    action_flag=CHANGE,
+                )
+
+            # reindex pages to ensure they have the new group id
+            # TODO: maybe optional?
+            digwork.index_items(Page.page_index_data(digwork))
 
     # NOTE: adapted from gale_import script
     def load_csv(self, path):
