@@ -2,7 +2,7 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
-    
+
     &[aria-label=article] {
         background-image: url("/static/img/icons/article.svg");
         width: 40px;
@@ -24,4 +24,15 @@
             height: 65px;
         }
     }
+}
+
+.multiversion-work.icon::before {
+    content: "";
+    display: inline-block;
+    background-image: url("/static/img/icons/multiple-version-work.svg");
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 40px;
+    width: 60px;
 }

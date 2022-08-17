@@ -2,8 +2,9 @@
 
 <li class="item {{ item.work_type }}">
     {% if item.work_type == "full-work" %} {# unapi metadata only available for full works #}
-    <abbr class="unapi-id" title="{{ item.group_id }}" aria-hidden="true"></abbr>
+    <abbr class="unapi-id" title="{{ item.work_page_group }}" aria-hidden="true"></abbr> {# TODO: check that title is right #}
     {% endif %}
+
     <a href="{% if item.first_page %}{% url 'archive:detail' source_id=item.source_id start_page=item.first_page %}{% else %}{% url 'archive:detail' item.source_id %}{% endif %}{% if query %}?query={{ query }}{% endif %}" class="detail">
         <div class="brief-result container">
             <div class="title column">
@@ -83,9 +84,17 @@
                         {% include 'snippets/chevron.svg' %}
                     </div>
                 </div>
+
             </div>
         </div>
     </a>
+    {# if the group id differs from item id, this is a collapsed reprint/edition result #}
+    {% if item.group_id != item.id %}
+    <div class="multiversion-work icon container" >
+        {# TODO: do we need aria label / sr-only text equivalent to the icon ? #}
+        <a href="#">view and search versions with same title & author</a>
+    </div>
+    {% endif %}
     <div class="page-previews container">
         {% if page_groups and page_highlights %}
         {% with results=page_groups|dict_item:item.id %}

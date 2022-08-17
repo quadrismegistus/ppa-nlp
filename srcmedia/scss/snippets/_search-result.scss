@@ -29,12 +29,12 @@
     .title.column,
     .metadata.column {
         width: 100%;
-        
+
         @media (min-width: $tablet) {
             width: 50%;
         }
     }
-    
+
     .title.column {
         display: flex;
         flex-flow: row wrap;
@@ -81,6 +81,8 @@
                     @media (min-width: 1280px) { top: 0; right: 200%; }
                 }
             }
+
+
         }
 
         .labels,
@@ -88,12 +90,12 @@
             font-size: 1.25rem;
             font-family: $headerFont;
             color: $black;
-    
+
             @media (min-width: $tablet) {
                 font-size: 1.5rem;
             }
         }
-    
+
         .sub.header {
             font-weight: normal;
             font-style: italic;
@@ -120,12 +122,12 @@
             @media (min-width: $tablet) {
                 grid-template-columns: 3fr 2fr;
             }
-            
+
             .author,
             .publisher {
                 grid-column: 1;
             }
-    
+
             .pub-date,
             .volume,
             .score {
@@ -140,7 +142,7 @@
             dd {
                 margin: 0;
             }
-    
+
             .author dd,
             .pub-date dd {
                 font-size: 1.2rem;
@@ -157,6 +159,21 @@
                 flex: none;
                 margin-bottom: 1rem;
             }
+        }
+    }
+
+    .multiversion-work {
+        margin-bottom: 42px;
+        // top padding is 19px from buttons,
+        // default result details padding above this is rem = 28px
+        margin-top: -9px;
+        a {
+            // font-family: $pageFont;
+            // @include font-scale;
+            &:link, &:visited, &:hover {
+                color: $french-blue;
+            }
+
         }
     }
 
